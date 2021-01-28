@@ -37,119 +37,97 @@ If the answer is yes to any of the following, you might want to consider a Bayes
 * Do you have strong subject matter knowledge or prior understanding of the relationships of interest you wish to incorporate?
 * Is there a large degree of uncertainty to incorporate in the analysis?
 
-Activity
+Activity: Our prior beliefs
 ========================================================
 
 ## Consider the following question:
 
-**I am an undergraduate international student studying at an Australian university. Do you think I am at a Go8 university?**
+**What proportion of all university students in Australia are studying at a Go8?**
 
-What do you think the probability of an international student being at a Go8 university is?
+* 0.2
+* 0.3
+* 0.4
 
+Pop your answers in the Teams chat!
 
-```r
-nous_responses <- c(0.7,0.7,0.3,0.4,0.5,0.8,0.8,0.6,0.6)
-```
-
-Activity Step 1: Specify our beliefs
+Activity: Our prior belief
 ========================================================
 class: small-code
 
-## P(Go8)
+Since we have a few values that are close together, we believe that the **true** proportion could be most likely somewhere around 0.3 but with some variability. We can model this uncertainty using a distribution. `Beta` distributions are ideal for proportion outcomes.
 
-We can use a [function I have written](https://gitlab.com/Henderson.T/intro-to-bayes/-/blob/master/R/calcs-by-hand.R) to turn these guesses into a table that is easy to understand.
+<img src="r-club-intro-to-bayes-figure/unnamed-chunk-2-1.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="850px" height="450px" />
 
-
-<div class="tabwid"><style>.cl-9d672628{border-collapse:collapse;}.cl-9d6073dc{font-family:'Segoe UI Semibold';font-size:24pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 38, 77, 1.00);background-color:transparent;}.cl-9d6073dd{font-family:'Segoe UI';font-size:22pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-9d6073de{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-9d6073df{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-9d6073e0{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-9d609ace{width:139pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(217, 217, 217, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:4pt;margin-top:4pt;margin-left:7pt;margin-right:7pt;}.cl-9d609acf{width:139pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(217, 217, 217, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:4pt;margin-top:4pt;margin-left:7pt;margin-right:7pt;}.cl-9d609ad0{width:139pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(217, 217, 217, 1.00);border-top: 1pt solid rgba(217, 217, 217, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:4pt;margin-top:4pt;margin-left:7pt;margin-right:7pt;}.cl-9d609ad1{width:139pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(217, 217, 217, 1.00);border-top: 1pt solid rgba(217, 217, 217, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:4pt;margin-top:4pt;margin-left:7pt;margin-right:7pt;}.cl-9d609ad2{width:139pt;background-clip: padding-box;background-color:rgba(217, 217, 217, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 3pt solid rgba(248, 152, 29, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:4pt;margin-top:4pt;margin-left:7pt;margin-right:7pt;}.cl-9d609ad3{width:139pt;background-clip: padding-box;background-color:rgba(217, 217, 217, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 3pt solid rgba(248, 152, 29, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:4pt;margin-top:4pt;margin-left:7pt;margin-right:7pt;}</style><table class='cl-9d672628'><thead><tr style="overflow-wrap:break-word;"><td class="cl-9d609ad3"><p class="cl-9d6073de"><span class="cl-9d6073dc">hypothesis</span></p></td><td class="cl-9d609ad2"><p class="cl-9d6073de"><span class="cl-9d6073dc">degree_of_belief</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-9d609acf"><p class="cl-9d6073df"><span class="cl-9d6073dd">Go8</span></p></td><td class="cl-9d609ace"><p class="cl-9d6073e0"><span class="cl-9d6073dd">0.6</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-9d609ad1"><p class="cl-9d6073df"><span class="cl-9d6073dd">non-Go8</span></p></td><td class="cl-9d609ad0"><p class="cl-9d6073e0"><span class="cl-9d6073dd">0.4</span></p></td></tr></tbody></table></div>
-
-Activity Step 2: Understand what the actual data says
+Activity: A sample of data
 ========================================================
 class: small-code
 
-## P(International | Go8)
+Now let's say we sampled 10 university students and observed whether they were attending a Go8 or not and 5 said they were.
 
-We can pull the 'real' data from DAWN easily and calculate the proportions (probability) for each combination of Go8/non-Go8 and citizenship:
+<img src="r-club-intro-to-bayes-figure/unnamed-chunk-3-1.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3" width="850px" height="450px" />
 
-
-<div class="tabwid"><style>.cl-9df07b62{border-collapse:collapse;}.cl-9dea64d4{font-family:'Segoe UI Semibold';font-size:24pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 38, 77, 1.00);background-color:transparent;}.cl-9dea64d5{font-family:'Segoe UI';font-size:22pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-9dea64d6{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-9dea64d7{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-9dea64d8{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-9dea8bbc{width:139pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(217, 217, 217, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:4pt;margin-top:4pt;margin-left:7pt;margin-right:7pt;}.cl-9dea8bbd{width:139pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(217, 217, 217, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:4pt;margin-top:4pt;margin-left:7pt;margin-right:7pt;}.cl-9dea8bbe{width:139pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(217, 217, 217, 1.00);border-top: 1pt solid rgba(217, 217, 217, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:4pt;margin-top:4pt;margin-left:7pt;margin-right:7pt;}.cl-9dea8bbf{width:139pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(217, 217, 217, 1.00);border-top: 1pt solid rgba(217, 217, 217, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:4pt;margin-top:4pt;margin-left:7pt;margin-right:7pt;}.cl-9dea8bc0{width:139pt;background-clip: padding-box;background-color:rgba(217, 217, 217, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 3pt solid rgba(248, 152, 29, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:4pt;margin-top:4pt;margin-left:7pt;margin-right:7pt;}.cl-9dea8bc1{width:139pt;background-clip: padding-box;background-color:rgba(217, 217, 217, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 3pt solid rgba(248, 152, 29, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:4pt;margin-top:4pt;margin-left:7pt;margin-right:7pt;}.cl-9dea8bc2{width:139pt;background-clip: padding-box;background-color:rgba(217, 217, 217, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 3pt solid rgba(248, 152, 29, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:4pt;margin-top:4pt;margin-left:7pt;margin-right:7pt;}</style><table class='cl-9df07b62'><thead><tr style="overflow-wrap:break-word;"><td class="cl-9dea8bc1"><p class="cl-9dea64d6"><span class="cl-9dea64d4">provider_group</span></p></td><td class="cl-9dea8bc0"><p class="cl-9dea64d6"><span class="cl-9dea64d4">citizen_or_residence</span></p></td><td class="cl-9dea8bc0"><p class="cl-9dea64d6"><span class="cl-9dea64d4">headcount</span></p></td><td class="cl-9dea8bc2"><p class="cl-9dea64d6"><span class="cl-9dea64d4">value</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-9dea8bbd"><p class="cl-9dea64d7"><span class="cl-9dea64d5">Go8</span></p></td><td class="cl-9dea8bbd"><p class="cl-9dea64d7"><span class="cl-9dea64d5">Domestic</span></p></td><td class="cl-9dea8bbc"><p class="cl-9dea64d8"><span class="cl-9dea64d5">183,440</span></p></td><td class="cl-9dea8bbc"><p class="cl-9dea64d8"><span class="cl-9dea64d5">0.72</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-9dea8bbe"><p class="cl-9dea64d7"><span class="cl-9dea64d5">Go8</span></p></td><td class="cl-9dea8bbe"><p class="cl-9dea64d7"><span class="cl-9dea64d5">International</span></p></td><td class="cl-9dea8bbf"><p class="cl-9dea64d8"><span class="cl-9dea64d5">72,839</span></p></td><td class="cl-9dea8bbf"><p class="cl-9dea64d8"><span class="cl-9dea64d5">0.28</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-9dea8bbe"><p class="cl-9dea64d7"><span class="cl-9dea64d5">non-Go8</span></p></td><td class="cl-9dea8bbe"><p class="cl-9dea64d7"><span class="cl-9dea64d5">Domestic</span></p></td><td class="cl-9dea8bbf"><p class="cl-9dea64d8"><span class="cl-9dea64d5">379,519</span></p></td><td class="cl-9dea8bbf"><p class="cl-9dea64d8"><span class="cl-9dea64d5">0.75</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-9dea8bbe"><p class="cl-9dea64d7"><span class="cl-9dea64d5">non-Go8</span></p></td><td class="cl-9dea8bbe"><p class="cl-9dea64d7"><span class="cl-9dea64d5">International</span></p></td><td class="cl-9dea8bbf"><p class="cl-9dea64d8"><span class="cl-9dea64d5">126,266</span></p></td><td class="cl-9dea8bbf"><p class="cl-9dea64d8"><span class="cl-9dea64d5">0.25</span></p></td></tr></tbody></table></div>
-
-Activity Step 3: Combine our beliefs and the data
+Activity: Combining our belief and the observed data
 ========================================================
 class: small-code
 
-## P(International | Go8)*P(Go8)
+We can multiply our `prior` by the observed data (`likelihood`) to get the `posterior`.
 
-We can now multiply the likelihood by the prior to compute the **joint probability**.
+<img src="r-club-intro-to-bayes-figure/unnamed-chunk-4-1.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" width="850px" height="450px" />
 
-
-<div class="tabwid"><style>.cl-9e1d388c{border-collapse:collapse;}.cl-9e1639ec{font-family:'Segoe UI Semibold';font-size:24pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 38, 77, 1.00);background-color:transparent;}.cl-9e1639ed{font-family:'Segoe UI';font-size:22pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-9e165ec2{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-9e165ec3{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-9e165ec4{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-9e1687d0{width:139pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(217, 217, 217, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:4pt;margin-top:4pt;margin-left:7pt;margin-right:7pt;}.cl-9e1687d1{width:139pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(217, 217, 217, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:4pt;margin-top:4pt;margin-left:7pt;margin-right:7pt;}.cl-9e1687d2{width:139pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(217, 217, 217, 1.00);border-top: 1pt solid rgba(217, 217, 217, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:4pt;margin-top:4pt;margin-left:7pt;margin-right:7pt;}.cl-9e1687d3{width:139pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(217, 217, 217, 1.00);border-top: 1pt solid rgba(217, 217, 217, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:4pt;margin-top:4pt;margin-left:7pt;margin-right:7pt;}.cl-9e1687d4{width:139pt;background-clip: padding-box;background-color:rgba(217, 217, 217, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 3pt solid rgba(248, 152, 29, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:4pt;margin-top:4pt;margin-left:7pt;margin-right:7pt;}.cl-9e1687d5{width:139pt;background-clip: padding-box;background-color:rgba(217, 217, 217, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 3pt solid rgba(248, 152, 29, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:4pt;margin-top:4pt;margin-left:7pt;margin-right:7pt;}.cl-9e1687d6{width:139pt;background-clip: padding-box;background-color:rgba(217, 217, 217, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 3pt solid rgba(248, 152, 29, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:4pt;margin-top:4pt;margin-left:7pt;margin-right:7pt;}</style><table class='cl-9e1d388c'><thead><tr style="overflow-wrap:break-word;"><td class="cl-9e1687d6"><p class="cl-9e165ec2"><span class="cl-9e1639ec">provider_group</span></p></td><td class="cl-9e1687d4"><p class="cl-9e165ec2"><span class="cl-9e1639ec">citizen_or_residence</span></p></td><td class="cl-9e1687d4"><p class="cl-9e165ec2"><span class="cl-9e1639ec">value</span></p></td><td class="cl-9e1687d4"><p class="cl-9e165ec2"><span class="cl-9e1639ec">degree_of_belief</span></p></td><td class="cl-9e1687d5"><p class="cl-9e165ec2"><span class="cl-9e1639ec">probs</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-9e1687d0"><p class="cl-9e165ec3"><span class="cl-9e1639ed">Go8</span></p></td><td class="cl-9e1687d0"><p class="cl-9e165ec3"><span class="cl-9e1639ed">Domestic</span></p></td><td class="cl-9e1687d1"><p class="cl-9e165ec4"><span class="cl-9e1639ed">0.72</span></p></td><td class="cl-9e1687d1"><p class="cl-9e165ec4"><span class="cl-9e1639ed">0.6</span></p></td><td class="cl-9e1687d1"><p class="cl-9e165ec4"><span class="cl-9e1639ed">0.43</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-9e1687d2"><p class="cl-9e165ec3"><span class="cl-9e1639ed">Go8</span></p></td><td class="cl-9e1687d2"><p class="cl-9e165ec3"><span class="cl-9e1639ed">International</span></p></td><td class="cl-9e1687d3"><p class="cl-9e165ec4"><span class="cl-9e1639ed">0.28</span></p></td><td class="cl-9e1687d3"><p class="cl-9e165ec4"><span class="cl-9e1639ed">0.6</span></p></td><td class="cl-9e1687d3"><p class="cl-9e165ec4"><span class="cl-9e1639ed">0.17</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-9e1687d2"><p class="cl-9e165ec3"><span class="cl-9e1639ed">non-Go8</span></p></td><td class="cl-9e1687d2"><p class="cl-9e165ec3"><span class="cl-9e1639ed">Domestic</span></p></td><td class="cl-9e1687d3"><p class="cl-9e165ec4"><span class="cl-9e1639ed">0.75</span></p></td><td class="cl-9e1687d3"><p class="cl-9e165ec4"><span class="cl-9e1639ed">0.4</span></p></td><td class="cl-9e1687d3"><p class="cl-9e165ec4"><span class="cl-9e1639ed">0.30</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-9e1687d2"><p class="cl-9e165ec3"><span class="cl-9e1639ed">non-Go8</span></p></td><td class="cl-9e1687d2"><p class="cl-9e165ec3"><span class="cl-9e1639ed">International</span></p></td><td class="cl-9e1687d3"><p class="cl-9e165ec4"><span class="cl-9e1639ed">0.25</span></p></td><td class="cl-9e1687d3"><p class="cl-9e165ec4"><span class="cl-9e1639ed">0.4</span></p></td><td class="cl-9e1687d3"><p class="cl-9e165ec4"><span class="cl-9e1639ed">0.10</span></p></td></tr></tbody></table></div>
-
-```
-[1] "17.1% probability we think that the student is at a Go8 and international."
-```
-
-Activity Step 4: Update our understanding using Bayes rule
-========================================================
-
-So far so good! But our model does not allow us to update our beliefs. We can achieve this through the full application of Bayes rule, which requires us to standardise our joint probability against all the possible probabilities of the data occurring:
-
-$Posterior = \frac{P(Go8 \mid Int) \cdot P(Go8)}{\sum_{i=1}^{n} P(Int \mid Go8_{i})\cdot P(Go8_{i})}$
-
-Which expands to:
-
-$Posterior = \frac{P(Go8 \mid Int) \cdot P(Go8)}{P(Int \mid Go8) \cdot P(Go8) + P(Int \mid non-Go8) \cdot P(non-Go8)}$
-
-Activity Step 4: Update our understanding using Bayes rule (cont.)
+Activity: Updating our beliefs
 ========================================================
 class: small-code
 
-The resulting 2 *posterior* probabilities for international at a Go8 and international at a non-Go8 **must sum to 1** in order to be a probability. The division outlined before ensures that this is the case.
+To properly update our beliefs, because we have more than one dimension, we need to standardise our posterior so that the total probability equals one.
 
+<img src="r-club-intro-to-bayes-figure/unnamed-chunk-5-1.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="850px" height="450px" />
 
-```
-[1] "63.1% probability I am an international student at a Go8 university"
-```
-
-```
-[1] "36.9% probability I am an international student at a non-Go8 university"
-```
-
-From numbers to distributions
+Activity: The impact of sample size
 ========================================================
 class: small-code
 
-Our trivial example so far just used the mean of all your estimates for simplicity. However, what if we do not know a single number of the prior but instead know roughly the shape it might take? We can instead specify a distribution and sample from it as over many simulations (more on this soon).
+So far we have used a random sample of 10 students. But what happens if we sample 100?
+
+
 
 <img src="r-club-intro-to-bayes-figure/unnamed-chunk-7-1.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" width="850px" height="450px" />
+
+Activity: The impact of sample size
+========================================================
+class: small-code
+
+How about 1000? As sample size increases, the impact of the prior on the posterior weakens in comparison to the data/likelihood.
+
+<img src="r-club-intro-to-bayes-figure/unnamed-chunk-8-1.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" width="850px" height="450px" />
 
 The mathematics of Bayesian statistics
 ========================================================
 
-Bayesian statistics boils down to [Bayes's theorem](https://en.wikipedia.org/wiki/Bayes%27_theorem):
+Bayesian statistics boils down to [Bayes's Theorem](https://en.wikipedia.org/wiki/Bayes%27_theorem):
 
-$P(A \mid B) = \frac{P(B \mid A) \cdot P(A)}{P(B)}$
+$P(\theta \mid D) = \frac{P(D \mid \theta) \cdot P(\theta)}{P(D)}$
 
 Let's break it down formally:
 
-$P(A \mid B)$ - this is called the **posterior** (probability of model parameters given the data)
+$P(\theta \mid D)$ - this is called the **posterior** (probability of model parameters given the data)
 
-$P(B \mid A)$ - this is called the **likelihood** (probability of the data given model parameters)
+$P(D \mid \theta)$ - this is called the **likelihood** (probability of the data given model parameters)
 
-$P(A)$ - this is called the **prior** (our expressed understanding of the probability of model parameters)
+$P(\theta)$ - this is called the **prior** (our expressed understanding of the probability of model parameters)
 
-$P(B)$ - this is called the **marginal likelihood** (probability of the data)
+$P(D)$ - this is called the **marginal likelihood** (probability of the data)
 
 Mathematical complications
 ========================================================
 
-The **marginal likelihood** (denominator in Bayes rule) is the reason we can't just compute complex Bayesian models easily - it involves summing (integrating) over all the possible values of the distributions. In our single number case it was easy to just add the numbers, but when using higher-dimensional models and complicated prior and likelihood distributions, this becomes analytically impossible.
+The **marginal likelihood** (denominator in Bayes Theorem) is the reason we can't just compute complex Bayesian models easily - it involves summing (integrating) over all the possible values of the distributions. In a trivial single number case it is easy to just add the numbers, but when using higher-dimensional models and complicated prior and likelihood distributions, this becomes analytically impossible.
 
 To get around this, we instead employ sampling algorithms, such as [Markov chain Monte Carlo (MCMC)](https://en.wikipedia.org/wiki/Markov_chain_Monte_Carlo), to simulate a large number of times to approximate the answer instead.
 
-Example: Basic regression
+Enough serious talk, more AFL!
 ========================================================
 
-Now that we have the basics, let's take a look at a basic Bayesian linear regression in R using the package [`rstanarm`](https://mc-stan.org/rstanarm/). 
+Now that we have the basics, let's take a look at a basic Bayesian regression in R using the package [`rstanarm`](https://mc-stan.org/rstanarm/). 
 
 `rstanarm` is a package that lets us fit Bayesian regression models using a simple syntax similar to the `glm` function.
 
@@ -206,89 +184,115 @@ d <- all_seasons %>%
   ungroup()
 ```
 
+Example: Prior specification
+========================================================
+class: small-code
+
+Since I expect a positive relationship, here is my prior distribution for the model intercept.
+
+<img src="r-club-intro-to-bayes-figure/unnamed-chunk-11-1.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" width="850px" height="450px" />
+
 Example: Basic visualisation
 ========================================================
 class: small-code
 
+And here is my prior for the regression coefficient.
 
-```r
-d %>%
-  filter(season != 2020) %>%
-  ggplot(aes(x = marks_inside_50, y = goals)) +
-  geom_jitter(position = "jitter") + # Creates some separation to avoid visual overlap
-  geom_smooth(method = "glm", method.args = list(family = "poisson")) + # Poisson because of count outcome
-  labs(x = "Marks Inside 50",
-       y = "Goals") +
-  theme_nous(gridlines = TRUE)
-```
-
-<img src="r-club-intro-to-bayes-figure/unnamed-chunk-10-1.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" width="850px" height="450px" />
+<img src="r-club-intro-to-bayes-figure/unnamed-chunk-12-1.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" width="850px" height="450px" />
 
 Example: Initial Bayesian model fit
 ========================================================
 class: small-code
 
-Now that we have seen the data, we can specify our understanding (prior). Since we expect a positive intercept around `8 goals` and a small positive regression coefficient close to `0`, I will specify priors that generally fit this criteria with some spread as I am not *fully* certain what 2020 will hold. Note the familiar syntax to your standard `glm` in `R`.
+We can fit a model on the data with my pretty vague priors to get started. Note the familiar syntax to your standard `glm` in `R`.
 
 
 ```r
-# Set up just 2020 data to feed into the model
-
-d_2020 <- d %>%
-  filter(season == 2020)
-
-# Fit a basic Bayesian model
+historical <- d %>%
+  filter(season != 2020)
 
 m1 <- stan_glm(goals ~ marks_inside_50,
-         data = d_2020, family = poisson,
-         prior = normal(0.00005, 0.01), prior_intercept = cauchy(location = 0, scale = 4),
-         chains = 3, seed = 123)
+               data = historical, family = neg_binomial_2,
+               prior = normal(0.03,0.01), prior_intercept = normal(1.5,0.5),
+               chains = 3, seed = 123)
 ```
+
+Example: Initial Bayesian model fit
+========================================================
+class: small-code
+
+We can compare our prior with the posterior. Here is the intercept.
+
+<img src="r-club-intro-to-bayes-figure/unnamed-chunk-14-1.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" width="850px" height="450px" />
+
+Example: Initial Bayesian model fit
+========================================================
+class: small-code
+
+And here is the coefficient.
+
+<img src="r-club-intro-to-bayes-figure/unnamed-chunk-15-1.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" width="850px" height="450px" />
+
+Example: Using historical posterior as new prior
+========================================================
+class: small-code
+
+We can now extract the posterior information from the historical model to use as the 2020 model prior.
+
+
+```r
+hist_post_agg <- as.data.frame(m1) %>%
+  clean_names() %>%
+  summarise(alpha_mean = mean(intercept),
+            alpha_sd = sd(intercept),
+            beta_mean = mean(marks_inside_50),
+            beta_sd = sd(marks_inside_50))
+
+season2020 <- d %>%
+  filter(season == 2020)
+
+m2 <- stan_glm(goals ~ marks_inside_50,
+               data = season2020, family = neg_binomial_2,
+               prior = normal(location = hist_post_agg$beta_mean, scale = hist_post_agg$beta_sd),
+               prior_intercept = normal(location = hist_post_agg$alpha_mean, scale = hist_post_agg$alpha_sd),
+               chains = 3, seed = 123)
+```
+
+Example: Using historical posterior as new prior
+========================================================
+class: small-code
+
+And a final comparison of our initial prior, the historical data posterior (which became the 2020 model prior) and the 2020 posterior. Here is the intercept.
+
+<img src="r-club-intro-to-bayes-figure/unnamed-chunk-17-1.png" title="plot of chunk unnamed-chunk-17" alt="plot of chunk unnamed-chunk-17" width="850px" height="450px" />
+
+Example: Using historical posterior as new prior
+========================================================
+class: small-code
+
+And the regression coefficient.
+
+<img src="r-club-intro-to-bayes-figure/unnamed-chunk-18-1.png" title="plot of chunk unnamed-chunk-18" alt="plot of chunk unnamed-chunk-18" width="850px" height="450px" />
 
 Example: Model diagnostics
 ========================================================
 class: small-code
 
-We can check if the chains mixed in a one-liner. We want these just to look like white noise, which they do here.
+We can check if the chains mixed in one line of `R` code. We want these just to look like white noise, which they do here.
 
 
 ```r
 color_scheme_set("mix-blue-pink")
-mcmc_trace(m1, facet_args = list(nrow = 2, labeller = label_parsed))
+mcmc_trace(m2, facet_args = list(nrow = 2, labeller = label_parsed))
 ```
 
-<img src="r-club-intro-to-bayes-figure/unnamed-chunk-12-1.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" width="850px" height="450px" />
+<img src="r-club-intro-to-bayes-figure/unnamed-chunk-19-1.png" title="plot of chunk unnamed-chunk-19" alt="plot of chunk unnamed-chunk-19" width="850px" height="450px" />
 
 Example: Model diagnostics
 ========================================================
 class: small-code
 
-We can further test how well our simulated data tracks against the real data. Not a strong fit here.
-
-
-```r
-ppc_dens_overlay(y = m1$y,
-                 yrep = posterior_predict(m1, draws = 100))
-```
-
-<img src="r-club-intro-to-bayes-figure/unnamed-chunk-13-1.png" title="plot of chunk unnamed-chunk-13" alt="plot of chunk unnamed-chunk-13" width="850px" height="450px" />
-
-Example: Updating our model
-========================================================
-class: small-code
-
-Since our data is overdispersed (`mean != variance`), a `negative binomial` model is likely better than a `Poisson` model. We can easily update our *original* model to accommodate this change.
-
-
-```r
-m2 <- update(m1, family = neg_binomial_2) 
-```
-
-Example: Model diagnostics
-========================================================
-class: small-code
-
-Our new model simulates the actual data much better, giving us some evidence to adopt the `negative binomial` approach.
+We can further test how well our simulated data tracks against the real data.
 
 
 ```r
@@ -296,9 +300,9 @@ ppc_dens_overlay(y = m2$y,
                  yrep = posterior_predict(m2, draws = 100))
 ```
 
-<img src="r-club-intro-to-bayes-figure/unnamed-chunk-15-1.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" width="850px" height="450px" />
+<img src="r-club-intro-to-bayes-figure/unnamed-chunk-20-1.png" title="plot of chunk unnamed-chunk-20" alt="plot of chunk unnamed-chunk-20" width="850px" height="450px" />
 
-Example: Plotting regression coefficient
+Example: Plotting posteriors automatically
 ========================================================
 class: small-code
 
@@ -309,31 +313,31 @@ Here is the coefficient posterior with shaded 80% credible intervals. Credible i
 mcmc_areas(m2, pars = "marks_inside_50", prob = 0.8)
 ```
 
-<img src="r-club-intro-to-bayes-figure/unnamed-chunk-16-1.png" title="plot of chunk unnamed-chunk-16" alt="plot of chunk unnamed-chunk-16" width="850px" height="450px" />
+<img src="r-club-intro-to-bayes-figure/unnamed-chunk-21-1.png" title="plot of chunk unnamed-chunk-21" alt="plot of chunk unnamed-chunk-21" width="850px" height="450px" />
 
-Example: Plotting against the actual data
+Example: Our model against the actual data
 ========================================================
 class: small-code
 
 
 ```r
-d_2020 %>%
-  data_grid(marks_inside_50 = modelr::seq_range(marks_inside_50, n = nrow(d_2020)), goals) %>%   
-  add_fitted_draws(m2, n = 100) %>% # Sample 100 draws from the posterior
+season2020 %>%
+  data_grid(marks_inside_50 = modelr::seq_range(marks_inside_50, n = nrow(season2020)), goals) %>%   
+  add_fitted_draws(m2, n = 100) %>%
   ggplot(aes(x = marks_inside_50, y = goals)) +
-  geom_line(aes(y = .value, group = .draw), alpha = 0.1, color = nous_colour("S5")) +
-  geom_point(data = d_2020, colour = nous_colour("C3")) +
-  labs(x = "Marks Inside 50",
+  geom_jitter(data = season2020, colour = nous_colour("C3"), position = "jitter")+
+  geom_line(aes(y = .value, group = .draw),alpha = 0.1,color = nous_colour("S5"))+
+  labs(title = "100 random posterior draws for 2020 data",x = "Marks Inside 50",
        y = "Goals")
 ```
 
-<img src="r-club-intro-to-bayes-figure/unnamed-chunk-17-1.png" title="plot of chunk unnamed-chunk-17" alt="plot of chunk unnamed-chunk-17" width="850px" height="450px" />
+<img src="r-club-intro-to-bayes-figure/unnamed-chunk-22-1.png" title="plot of chunk unnamed-chunk-22" alt="plot of chunk unnamed-chunk-22" width="850px" height="450px" />
 
 Final remarks
 ========================================================
 
 There is much, much more to learn in Bayesian statistics and many other ways to evaluate models. This session hopefully served as a primer to either inspire you to learn more, or to at least consider using Bayesian approaches on current/future Nous projects.
 
-If you want to know more or want advice on implementing Bayes into your projects, feel free to reach out to [myself](trent.henderson@nousgroup.com.au), [Peter Ellis](peter.ellis@nousgroup.com.au), [Martin Burgess](martin.burgess@nousgroup.com.au) or other Bayesian Nousers who I accidentally (sorry!) left out here.
+If you want to know more or want advice on implementing Bayes into your projects, feel free to reach out to [myself](trent.henderson@nousgroup.com.au), [Peter Ellis](peter.ellis@nousgroup.com.au), [Martin Burgess](martin.burgess@nousgroup.com.au), [Athol Whitten](athol.whitten@nousgroup.com.au) or other Bayesian Nousers who I accidentally (sorry!) left out here.
 
-## **Remember: Using Bayes' Theorem doesn't make you a Bayesian. Quantifying uncertainty with probability makes you a Bayesian - Michael Betancourt**
+**Using Bayes' Theorem doesn't make you a Bayesian. Quantifying uncertainty with probability makes you a Bayesian** - Michael Betancourt
