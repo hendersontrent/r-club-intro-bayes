@@ -12,6 +12,7 @@ autosize: true
 css: corp-styles.css
 transition: linear
 
+
 Goals of the presentation
 ========================================================
 class: small-code
@@ -188,7 +189,7 @@ Example: Prior specification
 ========================================================
 class: small-code
 
-Since I expect a positive relationship, here is my prior distribution for the model intercept.
+Since I have no real clue how many goals there'd be if there were zero marks, I have a really vague prior for the intercept:
 
 <img src="r-club-intro-to-bayes-figure/unnamed-chunk-11-1.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" width="850px" height="450px" />
 
@@ -196,7 +197,7 @@ Example: Basic visualisation
 ========================================================
 class: small-code
 
-And here is my prior for the regression coefficient.
+But I am confident that more marks means more goals, but not 1:1! Might be 10 times as many marks as goals, which means 0.1 as a slope? So here is my vague prior for the regression coefficient.
 
 <img src="r-club-intro-to-bayes-figure/unnamed-chunk-12-1.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" width="850px" height="450px" />
 
@@ -213,7 +214,7 @@ historical <- d %>%
 
 m1 <- stan_glm(goals ~ marks_inside_50,
                data = historical, family = neg_binomial_2,
-               prior = normal(0.03,0.01), prior_intercept = normal(1.5,0.25),
+               prior = normal(0.1,0.05), prior_intercept = normal(0, 5),
                chains = 3, seed = 123)
 ```
 
@@ -229,7 +230,7 @@ Example: Initial Bayesian model fit
 ========================================================
 class: small-code
 
-And here is the coefficient.
+And here is the slope coefficient, which is much more interesting.
 
 <img src="r-club-intro-to-bayes-figure/unnamed-chunk-15-1.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" width="850px" height="450px" />
 
@@ -262,17 +263,9 @@ Example: Using historical posterior as new prior
 ========================================================
 class: small-code
 
-And a final comparison of our initial prior, the historical data posterior (which became the 2020 model prior) and the 2020 posterior. Here is the intercept.
+And a final comparison of our initial prior, the historical data posterior (which became the 2020 model prior) and the 2020 posterior. We are skipping the intercept as it is of little interest, so let's just look at the regression coefficient.
 
 <img src="r-club-intro-to-bayes-figure/unnamed-chunk-17-1.png" title="plot of chunk unnamed-chunk-17" alt="plot of chunk unnamed-chunk-17" width="850px" height="450px" />
-
-Example: Using historical posterior as new prior
-========================================================
-class: small-code
-
-And the regression coefficient.
-
-<img src="r-club-intro-to-bayes-figure/unnamed-chunk-18-1.png" title="plot of chunk unnamed-chunk-18" alt="plot of chunk unnamed-chunk-18" width="850px" height="450px" />
 
 Example: Model diagnostics
 ========================================================
@@ -286,7 +279,7 @@ color_scheme_set("mix-blue-pink")
 mcmc_trace(m2, facet_args = list(nrow = 2, labeller = label_parsed))
 ```
 
-<img src="r-club-intro-to-bayes-figure/unnamed-chunk-19-1.png" title="plot of chunk unnamed-chunk-19" alt="plot of chunk unnamed-chunk-19" width="850px" height="450px" />
+<img src="r-club-intro-to-bayes-figure/unnamed-chunk-18-1.png" title="plot of chunk unnamed-chunk-18" alt="plot of chunk unnamed-chunk-18" width="850px" height="450px" />
 
 Example: Model diagnostics
 ========================================================
@@ -300,7 +293,7 @@ ppc_dens_overlay(y = m2$y,
                  yrep = posterior_predict(m2, draws = 100))
 ```
 
-<img src="r-club-intro-to-bayes-figure/unnamed-chunk-20-1.png" title="plot of chunk unnamed-chunk-20" alt="plot of chunk unnamed-chunk-20" width="850px" height="450px" />
+<img src="r-club-intro-to-bayes-figure/unnamed-chunk-19-1.png" title="plot of chunk unnamed-chunk-19" alt="plot of chunk unnamed-chunk-19" width="850px" height="450px" />
 
 Example: Plotting posteriors automatically
 ========================================================
@@ -313,7 +306,7 @@ Here is the coefficient posterior with shaded 80% credible intervals. Credible i
 mcmc_areas(m2, pars = "marks_inside_50", prob = 0.8)
 ```
 
-<img src="r-club-intro-to-bayes-figure/unnamed-chunk-21-1.png" title="plot of chunk unnamed-chunk-21" alt="plot of chunk unnamed-chunk-21" width="850px" height="450px" />
+<img src="r-club-intro-to-bayes-figure/unnamed-chunk-20-1.png" title="plot of chunk unnamed-chunk-20" alt="plot of chunk unnamed-chunk-20" width="850px" height="450px" />
 
 Example: Our model against the actual data
 ========================================================
@@ -331,7 +324,7 @@ season2020 %>%
        y = "Goals")
 ```
 
-<img src="r-club-intro-to-bayes-figure/unnamed-chunk-22-1.png" title="plot of chunk unnamed-chunk-22" alt="plot of chunk unnamed-chunk-22" width="850px" height="450px" />
+<img src="r-club-intro-to-bayes-figure/unnamed-chunk-21-1.png" title="plot of chunk unnamed-chunk-21" alt="plot of chunk unnamed-chunk-21" width="850px" height="450px" />
 
 Final remarks
 ========================================================
