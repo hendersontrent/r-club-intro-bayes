@@ -78,7 +78,7 @@ Activity: Updating our beliefs
 ========================================================
 class: small-code
 
-To properly update our beliefs, because we have more than one dimension, we need to standardise our posterior so that the total probability equals one.
+To properly update our beliefs, we need to standardise our posterior so that the total probability equals one.
 
 <img src="r-club-intro-to-bayes-figure/unnamed-chunk-5-1.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="850px" height="450px" />
 
@@ -86,7 +86,7 @@ Activity: The impact of sample size
 ========================================================
 class: small-code
 
-So far we have used a random sample of 10 students. But what happens if we sample 100?
+So far we have used a random sample of 10 students. But what happens if we sample 100 and 50% still said they were at a Go8?
 
 
 
@@ -213,7 +213,7 @@ historical <- d %>%
 
 m1 <- stan_glm(goals ~ marks_inside_50,
                data = historical, family = neg_binomial_2,
-               prior = normal(0.03,0.01), prior_intercept = normal(1.5,0.5),
+               prior = normal(0.03,0.01), prior_intercept = normal(1.5,0.25),
                chains = 3, seed = 123)
 ```
 

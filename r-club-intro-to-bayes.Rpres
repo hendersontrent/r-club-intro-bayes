@@ -71,7 +71,7 @@ class: small-code
 Since we have a few values that are close together, we believe that the **true** proportion could be most likely somewhere around 0.3 but with some variability. We can model this uncertainty using a distribution. `Beta` distributions are ideal for proportion outcomes.
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE, fig.keep = TRUE}
-x <- seq(0, 1, length.out = 10)
+x <- seq(0, 1, length.out = 11)
 
 pr <- data.frame(x = x,
                  y = dbeta(x, shape1 = 3.5, shape2 = 6.5),
@@ -92,9 +92,10 @@ class: small-code
 Now let's say we sampled 10 university students and observed whether they were attending a Go8 or not and 5 said they were.
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE, fig.keep = TRUE}
-lh <- data.frame(x = x,
-                 y = dbinom(x = 5, prob = x, size = 10),
-                 category = "Random Sample of Students")
+lh <- data.frame(x = 0:10) %>%
+  mutate(y = dbinom(x = x, prob = 0.5, size = 10),
+         category = "Random Sample of Students") %>%
+  mutate(x = x / max(x))
 
 pr %>%
   ggplot(aes(x = x, y = y)) +
@@ -134,7 +135,7 @@ Activity: Updating our beliefs
 ========================================================
 class: small-code
 
-To properly update our beliefs, because we have more than one dimension, we need to standardise our posterior so that the total probability equals one.
+To properly update our beliefs, we need to standardise our posterior so that the total probability equals one.
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE, fig.keep = TRUE}
 st_post <- posterior %>%
@@ -158,14 +159,14 @@ Activity: The impact of sample size
 ========================================================
 class: small-code
 
-So far we have used a random sample of 10 students. But what happens if we sample 100?
+So far we have used a random sample of 10 students. But what happens if we sample 100 and 50% still said they were at a Go8?
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE, fig.keep = TRUE}
 do_bayes <- function(n = 100){
   
   # Prior
   
-  x <- seq(0, 1, length.out = n)
+  x <- seq(0, 1, length.out = n+1)
   
   pr <- data.frame(x = x,
                      y = dbeta(x, shape1 = 3.5, shape2 = 6.5),
@@ -173,9 +174,10 @@ do_bayes <- function(n = 100){
   
   # Likelihood
   
-  lh <- data.frame(x = x,
-                   y = dbinom(x = 0.5*n, prob = x, size = n),
-                   category = "Random Sample of Students")
+  lh <- data.frame(x = 0:n) %>%
+    mutate(y = dbinom(x = x, prob = 0.5, size = n),
+           category = "Random Sample of Students") %>%
+    mutate(x = x / max(x))
   
   # Posterior
   
@@ -311,7 +313,7 @@ Since I expect a positive relationship, here is my prior distribution for the mo
 ```{r, message = FALSE, echo = FALSE, fig.keep = TRUE, warning = FALSE}
 set.seed(123)
 
-alpha_mine <- data.frame(x = rnorm(1000, mean = 1.5, sd = 0.5),
+alpha_mine <- data.frame(x = rnorm(1000, mean = 1.5, sd = 0.25),
                          category = "Initial Prior")
 am <- ggplot() +
   geom_density(data = alpha_mine, aes(x = x, fill = category), alpha = 0.4, colour = "black") +
@@ -359,7 +361,7 @@ historical <- d %>%
 
 m1 <- stan_glm(goals ~ marks_inside_50,
                data = historical, family = neg_binomial_2,
-               prior = normal(0.03,0.01), prior_intercept = normal(1.5,0.5),
+               prior = normal(0.03,0.01), prior_intercept = normal(1.5,0.25),
                chains = 3, seed = 123)
 ```
 
